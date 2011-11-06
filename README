@@ -1,0 +1,7 @@
+It's shell script which can be copies with display progress bar.
+Script based on usage tar and pipe viewer tools.
+Can produce copying:
+* file to file
+* file to folder
+* folder to existing or new folder
+* multiple files and folders in existing folder
