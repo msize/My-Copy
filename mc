@@ -1,0 +1,68 @@
+#!/bin/bash
+
+#set -x
+fail ( ) {
+  echo Fail: $*
+  exit 1
+}
+usage ( ) {
+  if [ $1 -lt 2 ] ; then
+    echo "It's not «Midnight Commander», it's «My Copy». :-)"
+    exit 1
+  fi
+}
+# copy file to file
+f2f ( ) {
+  cat "$1" | pv -s `du -b "$1" 2>&1 | awk 'END{print $1}'` | cat > "$2"
+}
+# copy file to folder
+f2d ( ) {
+  base=`basename "$1"`
+  cat "$1" | pv -s `du -b "$1" 2>&1 | awk 'END{print $1}'` | cat > "$2/$base"
+}
+# copy folder to folder
+d2d ( ) {
+  ( cd `dirname "$1"` && tar -cf - `basename "$1"` ) | pv -s `du -b "$1" 2>&1 | awk 'END{print $1}'` | ( cd "$2" && tar -xf - ) 
+}
+# copy folder to new folder
+d2f ( ) {
+  mkdir "$2"
+  ( cd "$1" && tar -cf - ./ ) | pv -s `du -b "$1" 2>&1 | awk 'END{print $1}'` | ( cd "$2" && tar -xf - ) 
+}
+# copy some to some
+s2s ( ) {
+  echo "Copy: $1 => $2"
+  # source is file and dest is folder
+  if [ -f "$1" -a -d "$2" ] ; then
+    f2d "$1" "$2"
+  # source is file and dest is new file
+  elif [ -f "$1" -a ! -e "$2" ] ; then
+    f2f "$1" "$2"
+  # source is folder and dest is folder
+  elif [ -d "$1" -a -d "$2" ] ; then
+    d2d "$1" "$2"
+  # source is folder and dest is new folder
+  elif [ -d "$1" -a ! -e "$2" ] ; then
+    d2f "$1" "$2"
+  else
+    fail "I can't copy it"
+  fi
+}
+
+argc=$#
+usage $argc
+
+for i in `seq $[argc-1]` ; do
+  src[$i]="$1"
+  shift
+done
+
+dst="$1"
+
+if [ $argc -gt 2 -a ! -d "$dst" ] ; then
+  fail "I can't copy multifiles into one file"
+fi
+
+for i in `seq $[argc-1]` ; do
+  s2s "${src[$i]}" "$dst"
+done
