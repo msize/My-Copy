@@ -14,11 +14,13 @@ usage ( ) {
 # copy file to file
 f2f ( ) {
   cat "$1" | pv -s `du -b "$1" 2>&1 | awk 'END{print $1}'` | cat > "$2"
+  chmod --reference="$1" "$2"
 }
 # copy file to folder
 f2d ( ) {
   base=`basename "$1"`
   cat "$1" | pv -s `du -b "$1" 2>&1 | awk 'END{print $1}'` | cat > "$2/$base"
+  chmod --reference="$1" "$2/$base"
 }
 # copy folder to folder
 d2d ( ) {
