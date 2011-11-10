@@ -1,7 +1,31 @@
-It's shell script which can be copies with display progress bar.
+1. INTRODUCTION
+
+  It's shell script which can be copies with display progress bar.
 Script based on usage tar and pipe viewer tools.
-Can produce copying:
-* file to file
-* file to folder
-* folder to existing or new folder
-* multiple files and folders in existing folder
+
+  Can produce copying:
+
+  * file to file
+  * file to folder
+  * folder to existing or new folder
+  * multiple files and folders in existing folder
+
+2. INSTALLATION
+
+  Put the script my-copy in ~/bin, and then add this alias in
+your ~/.bashrc:
+
+  alias cp='my-copy'
+
+  And then restart your terminal.
+
+3. DEBUGGING THE SCRIPT
+
+  Open shell script and uncomment sctring "set -x", and then run
+it. You should see all the operations performed in terminal. This
+will help to understand where in the case problem.
+
+  Also, I would be grateful to you if you have reported problems
+in issues tracker on github:
+
+  https://github.com/msize/My-Copy/issues
