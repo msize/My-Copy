@@ -22,7 +22,7 @@ f2d ( ) {
 }
 # copy folder to folder
 d2d ( ) {
-  ( cd `dirname "$1"` && tar -cf - `basename "$1"` ) | pv -s `du -b "$1" 2>&1 | awk 'END{print $1}'` | ( cd "$2" && tar -xf - ) 
+  ( cd "`dirname \"$1\"`" && tar -cf - "`basename \"$1\"`" ) | pv -s `du -b "$1" 2>&1 | awk 'END{print $1}'` | ( cd "$2" && tar -xf - ) 
 }
 # copy folder to new folder
 d2f ( ) {
