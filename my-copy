@@ -7,7 +7,7 @@ fail ( ) {
 }
 usage ( ) {
   if [ $1 -lt 2 ] ; then
-    echo "It's not «Midnight Commander», it's «My Copy». :-)"
+    echo "Nothing to do."
     exit 1
   fi
 }
