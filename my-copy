@@ -46,6 +46,9 @@ s2s ( ) {
   # source is folder and dest is new folder
   elif [ -d "$1" -a ! -e "$2" ] ; then
     d2f "$1" "$2"
+  # source is file and dest is file
+  elif [ -f "$1" -a -f "$2" ] ; then
+    f2f "$1" "$2"
   else
     fail "I can't copy it"
   fi
